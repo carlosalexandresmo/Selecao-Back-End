@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -10,14 +11,10 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     //
-    public function login(Request $request)
+    public function login(AuthRequest $request)
     {
         try {
-            // $credentials = $request->validated();
-            $credentials = $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required'],
-            ]);
+            $credentials = $request->validated();
 
             if (Auth::attempt($credentials)) {
                 $user = Auth::user();
@@ -33,7 +30,6 @@ class AuthController extends Controller
                     'data' => $user,
                     'message' => ""
                 ];
-
 
                 return response()->json($response, Response::HTTP_OK);
             } else {
@@ -60,12 +56,6 @@ class AuthController extends Controller
     {
         try {
             $request->user()->tokens()->delete();
-            // $user = Auth::user();
-            // $user->currentAccessToken()->delete();
-
-            // $data = new \stdClass();
-            // $data->document = $user->id;
-            // $data->logout = true;
 
             $response = [
                 'success' => true,

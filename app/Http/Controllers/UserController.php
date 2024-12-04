@@ -2,40 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     //
-    public function register(Request $request)
+    public function register(UserRegisterRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:3|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|between:8,20|min:8',
-        ], [
-            'name.required' => 'O campo nome é obrigatório',
-            'name.length' => 'O campo nome deve ter pelo menos 3 caracteres.',
-            'email.required' => 'O campo email é obrigatório.',
-            'email.email' => 'O campo email informado é inválido.',
-            'email.unique' => 'O campo e-mail informado está em uso.',
-            'password.required' => 'O campo senha é obrigatório',
-            'password.between' => 'O campo senha deve conter entre 8 a 20 caracteres',
-            'password.min' => 'O campo senha informado é curto',
-        ]);
-
-        if ($validator->fails()) {
-            $response = [
-                'success' => false,
-                'data' => 'Validation Error.',
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, Response::HTTP_BAD_REQUEST);
-        }
+        $validator = $request->validated();
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentStoreRequest;
+use App\Http\Requests\CommentUpdateRequest;
 use App\Models\Comment;
 use App\Models\CommentHistory;
 use Illuminate\Http\Request;
@@ -40,7 +41,6 @@ class CommentController extends Controller
 
     public function store(CommentStoreRequest $request)
     {
-
         try {
             $input = $request->validated();
 
@@ -66,25 +66,10 @@ class CommentController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(CommentUpdateRequest $request, $id)
     {
-
-        $validator = Validator::make($request->all(), [
-            'content' => 'required|string',
-        ], [
-            'content.required' => 'É necessário informar o comentário.',
-        ]);
-
-        if ($validator->fails()) {
-            $response = [
-                'success' => false,
-                'data' => 'Erro de Validação',
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, Response::HTTP_BAD_REQUEST);
-        }
-
         try {
+            $input = $request->validated();
 
             $comment = Comment::find($id);
 
