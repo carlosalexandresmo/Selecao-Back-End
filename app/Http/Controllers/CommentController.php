@@ -9,7 +9,6 @@ use App\Models\CommentHistory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
@@ -66,6 +65,32 @@ class CommentController extends Controller
         }
     }
 
+    public function show($id)
+    {
+
+        try {
+            $comment = Comment::find($id);
+            $comment->history;
+
+            $response = [
+                'success' => true,
+                'data' => $comment,
+                'message' => ""
+            ];
+
+            return response()->json($response, Response::HTTP_OK);
+        } catch (\Exception $e) {
+
+            $response = [
+                'success' => false,
+                'data' => $e,
+                'message' => $e->getMessage()
+            ];
+
+            return response()->json($response, Response::HTTP_BAD_REQUEST);
+        }
+    }
+
     public function update(CommentUpdateRequest $request, $id)
     {
         try {
@@ -91,7 +116,7 @@ class CommentController extends Controller
                 'message' => ""
             ];
 
-            return response()->json($response, Response::HTTP_CREATED);
+            return response()->json($response, Response::HTTP_OK);
         } catch (\Exception $e) {
 
             $response = [
@@ -100,7 +125,7 @@ class CommentController extends Controller
                 'message' => $e->getMessage()
             ];
 
-            return response()->json($response, Response::HTTP_UNPROCESSABLE_ENTITY);
+            return response()->json($response, Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -126,7 +151,7 @@ class CommentController extends Controller
                 'message' => $e->getMessage()
             ];
 
-            return response()->json($response, Response::HTTP_UNPROCESSABLE_ENTITY);
+            return response()->json($response, Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -155,7 +180,7 @@ class CommentController extends Controller
         }
     }
 
-    public function deleteAll(Request $request)
+    public function deleteAll()
     {
 
         try {
@@ -169,7 +194,7 @@ class CommentController extends Controller
                 $response = [
                     'success' => true,
                     'data' => null,
-                    'message' => "Todos os comentários excluídos"
+                    'message' => "Todos os comentários foram excluídos"
                 ];
 
                 return response()->json($response, Response::HTTP_NO_CONTENT);
@@ -181,16 +206,8 @@ class CommentController extends Controller
                     'message' => '',
                 ];
 
-                return response()->json($response, Response::HTTP_UNPROCESSABLE_ENTITY);
+                return response()->json($response, Response::HTTP_FORBIDDEN);
             }
-
-            $response = [
-                'success' => true,
-                'data' => null,
-                'message' => ""
-            ];
-
-            return response()->json($response, Response::HTTP_NO_CONTENT);
         } catch (\Exception $e) {
 
             $response = [

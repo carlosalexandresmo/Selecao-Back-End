@@ -46,6 +46,9 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
     //Listar comentários de usuário autenticado
     Route::get('/comments', [CommentController::class, 'index']);
 
+    //Visualizar um comentário
+    Route::get('/comments/{id}', [CommentController::class, 'show']);
+
     //Adicionar comentário de usuário autenticado
     Route::post('/comments', [CommentController::class, 'store']);
 

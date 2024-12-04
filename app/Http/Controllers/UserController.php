@@ -36,7 +36,7 @@ class UserController extends Controller
                 'message' => $e->getMessage()
             ];
 
-            return response()->json($response, Response::HTTP_UNPROCESSABLE_ENTITY);
+            return response()->json($response, Response::HTTP_BAD_REQUEST);
         }
     }
 
