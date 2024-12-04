@@ -145,6 +145,31 @@ class CommentController extends Controller
         }
     }
 
+    public function history($id)
+    {
+        try {
+            $comment = Comment::findOrFail($id);
+            $comment->historic;
+
+            $response = [
+                'success' => true,
+                'data' => $comment,
+                'message' => ""
+            ];
+
+            return response()->json($response, Response::HTTP_OK);
+        } catch (\Exception $e) {
+
+            $response = [
+                'success' => false,
+                'data' => $e,
+                'message' => $e->getMessage()
+            ];
+
+            return response()->json($response, Response::HTTP_BAD_REQUEST);
+        }
+    }
+
     public function deleteAll(Request $request)
     {
 
