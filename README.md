@@ -20,8 +20,9 @@ Sistema de Comentários é um projeto desenvolvido utilizando Laravel. Neste arq
     -   O usuário também tem a possibilidade de visualizar seus dados, atráves da rota `/api/v1/me` (GET).
 
 -   **Autenticação de Usuários com e-mail e senha**:
+
     -   O sistema possibilita que seus usuários realizem autenticação com e-mail e senha, através da rota `api/v1/login` (POST), retornando os dados do usuário e um token de autenticação, para que nas rotas protegidas, possa ser usada.
-    -
+
 -   **Listagem de Comentários**:
 
     -   O sistema possibilita que todos possam visualizar os comentários de forma pública, através da rota `api/v1/comments` (GET), podendo realizar paginação, passando os parâmentros `page=0&limit=10`.
@@ -55,6 +56,7 @@ Sistema de Comentários é um projeto desenvolvido utilizando Laravel. Neste arq
     -   Através da rota `/api/v1/comments` (DELETE) e com autenicação no papel de administrador, essa funcionalidade pode ser realizada.
 
 -   **Criptografia da senha do Usuário**:
+
     -   O sistema realiza a criptografia da senha, e ao são armazenadas no banco de dados
         utilizando o método bcrypt do Laravel.
 
